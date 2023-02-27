@@ -89,6 +89,11 @@ public class ClassRosterView {
         io.readString("Please enter enter to continue.");
     }
 
+    public void displayRemoveResult(){
+        io.print("Student successfully removed.");
+        io.readString("Please enter enter to continue.");
+    }
+
     public void displayExitBanner(){
         io.print("Good Bye!!!");
     }
