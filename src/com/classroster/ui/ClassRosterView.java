@@ -2,6 +2,8 @@ package com.classroster.ui;
 
 import com.classroster.dto.Student;
 
+import java.util.List;
+
 public class ClassRosterView {
 
     private UserIO io = new UserIOConsoleImpl();
@@ -34,6 +36,21 @@ public class ClassRosterView {
     public void displayCreateSuccessBanner() {
         io.readString(
                 "Student successfully created.  Please hit enter to continue");
+    }
+
+    public void displayStudentList(List<Student> studentList){
+        for(Student currentStudent: studentList){
+            String studentInfo = String.format("#%s : %s %s",
+                    currentStudent.getStudentId(),
+                    currentStudent.getFirstName(),
+                    currentStudent.getLastName());
+            io.print(studentInfo);
+        }
+        io.readString("Please hit enter to continue");
+    }
+
+    public void displayDisplayAllBanner(){
+        io.print("=== Display All Students ===");
     }
 
 }
