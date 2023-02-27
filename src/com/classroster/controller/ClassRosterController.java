@@ -4,14 +4,11 @@ import com.classroster.dao.ClassRosterDao;
 import com.classroster.dao.ClassRosterDaoFileImpl;
 import com.classroster.dto.Student;
 import com.classroster.ui.ClassRosterView;
-import com.classroster.ui.UserIO;
-import com.classroster.ui.UserIOConsoleImpl;
 
 import java.util.List;
 
 public class ClassRosterController {
     private ClassRosterView view = new ClassRosterView();
-    private UserIO io = new UserIOConsoleImpl();
     private ClassRosterDao dao = new ClassRosterDaoFileImpl();
 
     public void run() {
@@ -39,11 +36,11 @@ public class ClassRosterController {
                     keepGoing = false;
                     break;
                 default:
-                    io.print("UNKNOWN COMMAND");
+                    unknownCommand();
             }
 
         }
-        io.print("GOOD BYE");
+        exitMessage();
     }
 
     private void createStudent() {
@@ -71,6 +68,14 @@ public class ClassRosterController {
         String studentId = view.getStudentIdChoice();
         Student removedStudent = dao.removeStudent(studentId);
         view.displayRemoveResult(removedStudent);
+    }
+
+    private void unknownCommand(){
+        view.displayUnknownCommandBanner();
+    }
+
+    private void exitMessage(){
+        view.displayExitBanner();
     }
 }
 
