@@ -1,0 +1,10 @@
+Summary
+
+In this code-along, you have seen how to implement a Service Layer. The important things to remember from this exercise are:
+
+    The Service Layer sits between the Controller and the DAO and contains the business logic of the program.
+    The Service Layer can (and very often does) interact with more than one DAO. In our example, the Service Layer interacted with both the ClassRosterDao (for CRUD operations on Student objects) and the AuditDao (for writing to the Audit Log).
+    Adding a Service Layer to an application affects several components. In our example, we had to modify the Controller and the App classes to account for the new component. It is strongly recommended that you take the "back to front" approach that we followed in this example.
+        Create the Service Layer interface and implementation
+        Modify the Controller to use the new Service Layer
+        Modify the App class to instantiate the new Service Layer and wire it into the application
