@@ -13,28 +13,32 @@ public class ClassRosterDaoFileImpl implements ClassRosterDao {
     private Map<String, Student> students = new HashMap<>();
 
     @Override
-    public Student addStudent(String studentId, Student student) {
-        Student prevStudent = students.put(studentId, student);
-        return prevStudent;
+    public Student addStudent(String studentId, Student student) throws ClassRosterDaoException {
+        loadRoster();
+        Student newStudent = students.put(studentId, student);
+        writeRoster();
+        return newStudent;
     }
 
     @Override
-    public List<Student> getAllStudents() {
-        return new ArrayList<Student>(students.values());
+    public List<Student> getAllStudents() throws ClassRosterDaoException{
+        loadRoster();
+        return new ArrayList(students.values());
     }
 
     @Override
-    public Student getStudent(String studentId) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public Student getStudent(String studentId) throws ClassRosterDaoException{
+        loadRoster();
+        return students.get(studentId);
     }
 
     @Override
-    public Student removeStudent(String studentId) {
+    public Student removeStudent(String studentId) throws ClassRosterDaoException{
+        loadRoster();
         Student removedStudent = students.remove(studentId);
+        writeRoster();
         return removedStudent;
     }
-
-
 
     private Student unmarshallStudent(String studentAsText){
         // studentAsText is expecting a line read in from our file.
@@ -73,8 +77,6 @@ public class ClassRosterDaoFileImpl implements ClassRosterDao {
         return studentFromFile;
     }
 
-
-
     private void loadRoster() throws ClassRosterDaoException {
         Scanner scanner;
 
@@ -108,8 +110,6 @@ public class ClassRosterDaoFileImpl implements ClassRosterDao {
         scanner.close();
     }
 
-
-
     private String marshallStudent(Student aStudent){
         // We need to turn a Student object into a line of text for our file.
         // For example, we need an in memory object to end up like this:
@@ -132,8 +132,6 @@ public class ClassRosterDaoFileImpl implements ClassRosterDao {
         // We have now turned a student to text! Return it!
         return studentAsText;
     }
-
-
 
     /**
      * Writes all students in the roster out to a ROSTER_FILE.  See loadRoster
@@ -174,14 +172,6 @@ public class ClassRosterDaoFileImpl implements ClassRosterDao {
         // Clean up
         out.close();
     }
-
-
-
-
-
-
-
-
 
 }
 
