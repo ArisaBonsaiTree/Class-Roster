@@ -1,5 +1,6 @@
 package com.classroster.service;
 
+import com.classroster.dao.ClassRosterAuditDao;
 import com.classroster.dao.ClassRosterDao;
 import com.classroster.dao.ClassRosterPersistenceException;
 import com.classroster.dto.Student;
@@ -9,10 +10,13 @@ import java.util.List;
 public class ClassRosterServiceLayerImpl implements ClassRosterServiceLayer{
 
 
-    ClassRosterDao dao;
+    private ClassRosterDao dao;
+    private ClassRosterAuditDao auditDao;
 
-    public ClassRosterServiceLayerImpl(ClassRosterDao dao) {
+
+    public ClassRosterServiceLayerImpl(ClassRosterDao dao, ClassRosterAuditDao auditDao) {
         this.dao = dao;
+        this.auditDao = auditDao;
     }
 
     @Override
@@ -27,6 +31,9 @@ public class ClassRosterServiceLayerImpl implements ClassRosterServiceLayer{
 
         // Data survived our business rules checks, so now we persist the Student object
         dao.addStudent(student.getStudentId(), student);
+
+        // The student was successfulyl created, now write the audit log
+        auditDao.writeAuditEntry("Student " + student.getStudentId() + " CREATED.");;
     }
 
     @Override
@@ -41,7 +48,12 @@ public class ClassRosterServiceLayerImpl implements ClassRosterServiceLayer{
 
     @Override
     public Student removeStudent(String studentId) throws ClassRosterPersistenceException {
-        return dao.removeStudent(studentId);
+        Student removedStudent = dao.removeStudent(studentId);
+
+        // Write to audit log
+        auditDao.writeAuditEntry("Student " + studentId + " REMOVED.");
+
+        return removedStudent;
     }
 
     private void validateStudentData(Student student) throws ClassRosterDataValidationException{
