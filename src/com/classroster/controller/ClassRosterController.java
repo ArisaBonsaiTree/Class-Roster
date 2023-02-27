@@ -8,8 +8,14 @@ import com.classroster.ui.ClassRosterView;
 import java.util.List;
 
 public class ClassRosterController {
-    private ClassRosterView view = new ClassRosterView();
-    private ClassRosterDao dao = new ClassRosterDaoFileImpl();
+
+    private ClassRosterView view;
+    private ClassRosterDao dao;
+
+    public ClassRosterController(ClassRosterView view, ClassRosterDao dao) {
+        this.view = view;
+        this.dao = dao;
+    }
 
     public void run() {
         boolean keepGoing = true;
