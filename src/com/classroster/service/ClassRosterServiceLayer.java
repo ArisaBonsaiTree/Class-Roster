@@ -1,5 +1,10 @@
 package com.classroster.service;
 
+import com.classroster.dao.ClassRosterPersistenceException;
+import com.classroster.dto.Student;
+
+import java.util.List;
+
 public interface ClassRosterServiceLayer {
 
     void createStudent(Student student) throws
