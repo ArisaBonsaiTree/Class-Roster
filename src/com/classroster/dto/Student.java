@@ -1,9 +1,9 @@
 package com.classroster.dto;
 
 public class Student {
+    private String studentId;
     private String firstName;
     private String lastName;
-    private String studentId;
 
     public Student(String studentId){
         this.studentId = studentId;
